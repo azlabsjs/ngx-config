@@ -1,9 +1,9 @@
 {
   "name": "@azlabsjs/ngx-config",
-  "version": "0.13.0",
+  "version": "0.14.0",
   "peerDependencies": {
-    "@angular/common": "^12.0.0 || ^13.0.0",
-    "@angular/core": "^12.0.0 || ^13.0.0",
+    "@angular/common": "^14.0.0",
+    "@angular/core": "^14.0.0",
     "@azlabsjs/js-object": "^0.1.10"
   },
   "dependencies": {
