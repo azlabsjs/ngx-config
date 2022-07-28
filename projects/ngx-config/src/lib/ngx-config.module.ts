@@ -22,7 +22,7 @@ export const appInitialization = (manager: ConfigurationManager) => async () =>
 interface ModuleConfig {
   environment: { [index: string]: any };
   jsonConfigURL?: string;
-  jsonLoader: {
+  jsonLoader?: {
     factory: (...deps: any[]) => JSONConfigLoader;
     deps: any[];
   };
