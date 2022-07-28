@@ -6,3 +6,4 @@ export {
   JSON_CONFIG_URL,
   JSON_CONFIG_LOADER,
 } from './tokens';
+export { AppEnvironmentManager } from './environment';

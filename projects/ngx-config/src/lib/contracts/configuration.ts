@@ -40,7 +40,7 @@ export interface ConfigurationManager {
   ): void | Observable<any> | Promise<any>;
 
   // Cette method récupère une valeur correspodante à la clé fourni
-  get(key?: string, default_?: any): any;
+  get<T = unknown>(key?: string, default_?: any): T;
 }
 
 export type JSONConfigLoader = CallableConfigLoader | ConfigLoader;

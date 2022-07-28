@@ -11,3 +11,4 @@ export {
   JSON_CONFIG_LOADER,
   AppConfigurationManager,
 } from './lib/services';
+export { NgxConfigPipe } from './lib/pipes';
