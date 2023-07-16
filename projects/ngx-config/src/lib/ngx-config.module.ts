@@ -11,20 +11,20 @@ import {
   JSON_CONFIG_URL,
   JSON_CONFIG_LOADER,
   AppEnvironmentManager,
-  AppConfigurationManager
+  AppConfigurationManager,
 } from './services';
 import { ConfigurationManager, JSONConfigLoader } from './contracts';
 import { NgxConfigPipe } from './pipes';
 
 export const appInitialization = (manager: ConfigurationManager) => async () =>
-  (await manager.load()) as Promise<any>;
+  await manager.load();
 
 interface ModuleConfig {
-  environment: { [index: string]: any };
+  environment: { [index: string]: unknown };
   jsonConfigURL?: string;
   jsonLoader?: {
-    factory: (...deps: any[]) => JSONConfigLoader;
-    deps: any[];
+    factory: (...deps: unknown[]) => JSONConfigLoader;
+    deps: unknown[];
   };
 }
 

@@ -1,7 +1,7 @@
 import { Observable } from 'rxjs';
 
 // @internal
-export type ConfigMap = { [index: string]: any };
+export type ConfigMap = { [index: string]: unknown };
 
 // @internal
 export type CallableConfigLoader = (path?: string) => Promise<ConfigMap>;
@@ -36,11 +36,11 @@ export interface ConfigLoader {
 export interface ConfigurationManager {
   // Cette method charge en mémoire les configurations de l'application
   load(
-    configuration?: { [index: string]: any } | string
-  ): void | Observable<any> | Promise<any>;
+    configuration?: { [index: string]: unknown } | string
+  ): void | Observable<void> | Promise<void>;
 
   // Cette method récupère une valeur correspodante à la clé fourni
-  get<T = unknown>(key?: string, default_?: any): T;
+  get<T = unknown>(key?: string, default_?: T|unknown): T;
 }
 
 export type JSONConfigLoader = CallableConfigLoader | ConfigLoader;

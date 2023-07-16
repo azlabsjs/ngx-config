@@ -42,6 +42,7 @@ describe('App configuration manager Tests', () => {
                   },
                 }
               : {
+                  production: true,
                   api: {
                     host: 'http://prod.server.org',
                   },
@@ -60,5 +61,15 @@ describe('App configuration manager Tests', () => {
   it('It should returns http://prod.server.org when request for api.host configuration key ', async () => {
     await service.load('api/prod');
     expect(service.get('api.host')).toEqual('http://prod.server.org');
+  });
+
+  it('It should return the whole configuration if no key is provided', async () => {
+    await service.load('api/prod');
+    expect(service.get()).toEqual({
+      production: true,
+      api: {
+        host: 'http://prod.server.org',
+      },
+    });
   });
 });

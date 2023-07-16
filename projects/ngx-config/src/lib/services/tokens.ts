@@ -1,7 +1,7 @@
 import { InjectionToken } from "@angular/core";
 import { ConfigurationManager, JSONConfigLoader } from "../contracts";
 
-export const ENVIRONMENT = new InjectionToken<{ [index: string]: any }>(
+export const ENVIRONMENT = new InjectionToken<{ [index: string]: unknown }>(
   'Angular enviromenent injection token'
 );
 
