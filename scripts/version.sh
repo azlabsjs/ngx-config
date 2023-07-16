@@ -12,4 +12,6 @@ cwd=($(pwd))
 current_dir="${cwd}/projects/ngx-config"
 
 echo $current_dir
-cd "$current_dir" && npm version $version
+cd "$current_dir"
+tag=$(npm version $version)
+git commit -a -m "version $tag release"
