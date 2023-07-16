@@ -7,47 +7,12 @@ import {
   CallableConfigLoader,
   ConfigLoader,
 } from '../contracts';
-import { isPureFunction } from '../internals';
+import { deepMerge, isPureFunction } from '../internals';
 import {
   ANGULAR_ENVIRONMENT_MANAGER,
   JSON_CONFIG_LOADER,
   JSON_CONFIG_URL,
 } from './tokens';
-
-/**
- * Merge properties of the source object into the target object 
- */
-function deepMerge<T extends { [key: string]: unknown }>(
-  target: T,
-  source: T | Partial<T>
-) {
-  const isObject = (obj: unknown) => obj && typeof obj === 'object';
-
-  if (!isObject(target) || !isObject(source)) {
-    return source;
-  }
-
-  // Initialiaze output object
-  const output: any = {} as T;
-
-  for (const key in source) {
-    const tValue = target[key];
-    const sValue = source[key];
-    if (Array.isArray(tValue) && Array.isArray(sValue)) {
-      output[key] = [...tValue].concat(sValue);
-      continue;
-    }
-    if (isObject(tValue) && isObject(sValue)) {
-      output[key] = deepMerge(Object.assign({}, tValue), sValue as any);
-      continue;
-    }
-
-    output[key] = sValue;
-  }
-
-  // return the constructed merged object
-  return output as T;
-}
 
 @Injectable({
   providedIn: 'root',
@@ -91,7 +56,7 @@ export class AppConfigurationManager implements ConfigurationManager {
     }
   }
 
-  get(key: string | undefined = undefined, default_: any = undefined) {
+  get(key: string | undefined = undefined, default_: unknown = undefined) {
     if (key) {
       return (
         getObjectProperty(this.configurations ?? {}, key) ??

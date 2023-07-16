@@ -6,15 +6,16 @@ import { APP_CONFIG_MANAGER } from '../services';
   name: 'ngxConfig',
 })
 export class NgxConfigPipe implements PipeTransform {
-
   /**
    * Creates an instance of the NgxConfigPipe
    *
    * @param configManager
    */
-  constructor(@Inject(APP_CONFIG_MANAGER) private configManager: ConfigurationManager) {}
+  constructor(
+    @Inject(APP_CONFIG_MANAGER) private configManager: ConfigurationManager
+  ) {}
 
-  transform(value: string, default_?: any): unknown {
-    return this.configManager.get(value, default_) ?? '';
+  transform<T>(value: string, default_?: unknown): T {
+    return this.configManager.get<T>(value, default_);
   }
 }
