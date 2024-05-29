@@ -1,7 +1,7 @@
 import { TestBed } from '@angular/core/testing';
 import { ConfigurationManager } from '../contracts';
-import { AppEnvironmentManager } from './environment';
-import { ANGULAR_ENVIRONMENT_MANAGER, ENVIRONMENT } from './tokens';
+import { ANGULAR_ENVIRONMENT_MANAGER } from './tokens';
+import { provideNgEnvironment } from '../providers';
 
 describe('App configuration manager Tests', () => {
   let service: ConfigurationManager;
@@ -9,19 +9,12 @@ describe('App configuration manager Tests', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       providers: [
-        {
-          provide: ANGULAR_ENVIRONMENT_MANAGER,
-          useClass: AppEnvironmentManager,
-        },
-        {
-          provide: ENVIRONMENT,
-          useValue: {
-            production: false,
-            api: {
-              host: 'https://localhost',
-            },
+        provideNgEnvironment({
+          production: false,
+          api: {
+            host: 'https://localhost',
           },
-        },
+        }),
       ],
     }).compileComponents();
     service = TestBed.inject(ANGULAR_ENVIRONMENT_MANAGER);

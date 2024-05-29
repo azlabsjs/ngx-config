@@ -1,13 +1,10 @@
 import { TestBed } from '@angular/core/testing';
 import { ConfigurationManager } from '../contracts';
-import { AppConfigurationManager } from './configuration';
-import { AppEnvironmentManager } from './environment';
+import { APP_CONFIG_MANAGER } from './tokens';
 import {
-  ANGULAR_ENVIRONMENT_MANAGER,
-  APP_CONFIG_MANAGER,
-  ENVIRONMENT,
-  JSON_CONFIG_LOADER,
-} from './tokens';
+  provideConfigurationManager,
+  provideNgEnvironment,
+} from '../providers';
 
 describe('App configuration manager Tests', () => {
   let service: ConfigurationManager;
@@ -15,39 +12,23 @@ describe('App configuration manager Tests', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       providers: [
-        {
-          provide: APP_CONFIG_MANAGER,
-          useClass: AppConfigurationManager,
-        },
-        {
-          provide: ANGULAR_ENVIRONMENT_MANAGER,
-          useClass: AppEnvironmentManager,
-        },
-        {
-          provide: ENVIRONMENT,
-          useValue: {
-            production: false,
-            api: {
-              host: 'https://localhost',
-            },
+        provideNgEnvironment({
+          production: false,
+          api: {
+            host: 'https://localhost',
           },
-        },
-        {
-          provide: JSON_CONFIG_LOADER,
-          useValue: (url: string) =>
-            url !== 'api/prod'
-              ? {
-                  api: {
-                    host: 'http://127.0.0.1',
-                  },
-                }
-              : {
-                  production: true,
-                  api: {
-                    host: 'http://prod.server.org',
-                  },
-                },
-        },
+        }),
+        provideConfigurationManager({
+          loader: (url?: string) =>
+            new Promise((resolve) =>
+              url !== 'api/prod'
+                ? resolve({ api: { host: 'http://127.0.0.1' } })
+                : resolve({
+                    production: true,
+                    api: { host: 'http://prod.server.org' },
+                  })
+            ),
+        }),
       ],
     }).compileComponents();
     service = TestBed.inject(APP_CONFIG_MANAGER);

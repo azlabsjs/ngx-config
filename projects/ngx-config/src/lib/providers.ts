@@ -1,4 +1,4 @@
-import { APP_INITIALIZER, Provider } from '@angular/core';
+import { APP_INITIALIZER, Provider, inject } from '@angular/core';
 import {
   CallableConfigLoader,
   ConfigMap,
@@ -14,8 +14,9 @@ import {
 } from './services';
 
 /** @internal */
-export const appInitialization = (manager: ConfigurationManager) => async () =>
-  await manager.load();
+export const appInitialization =
+  (manager: ConfigurationManager | null) => async () =>
+    await manager?.load();
 
 /** @description Provides a configuration manager instance angular environment object */
 export function provideNgEnvironment(e: ConfigMap) {
@@ -29,19 +30,22 @@ export function provideNgEnvironment(e: ConfigMap) {
 
 /** @descripte Provides a configuration manager that merge configuration defines in a remote or json asset and angular environment object */
 export function provideConfigurationManager(
-  url = '/assets/resources/config.json',
-  loader?: CallableConfigLoader
+  config?: Partial<{
+    url: string;
+    loader: CallableConfigLoader;
+  }>
 ) {
+  const { url, loader } = config ?? {};
   return {
     provide: APP_CONFIG_MANAGER,
-    useFactory: (e: ConfigurationManager, l?: JSONConfigLoader) => {
+    useFactory: () => {
       return new AppConfigurationManager(
         url ?? '/assets/resources/config.json',
-        e,
-        loader ?? l
+        inject(ANGULAR_ENVIRONMENT_MANAGER),
+        loader ?? inject(JSON_CONFIG_LOADER)
       );
     },
-    deps: [ANGULAR_ENVIRONMENT_MANAGER, JSON_CONFIG_LOADER],
+    deps: [],
   } as Provider;
 }
 
@@ -62,8 +66,8 @@ export function provideJsonConfigLoader(config: {
 export function provideAppInitializers() {
   return {
     provide: APP_INITIALIZER,
-    useFactory: (manager: ConfigurationManager) => appInitialization(manager),
+    useFactory: () => appInitialization(inject(APP_CONFIG_MANAGER)),
     multi: true,
-    deps: [APP_CONFIG_MANAGER],
+    deps: [],
   } as Provider;
 }
