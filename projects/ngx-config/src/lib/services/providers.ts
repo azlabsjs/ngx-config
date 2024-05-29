@@ -4,14 +4,14 @@ import {
   ConfigMap,
   ConfigurationManager,
   JSONConfigLoader,
-} from './contracts';
+} from '../contracts';
 import {
   ANGULAR_ENVIRONMENT_MANAGER,
   APP_CONFIG_MANAGER,
-  AppConfigurationManager,
-  AppEnvironmentManager,
   JSON_CONFIG_LOADER,
-} from './services';
+} from './tokens';
+import { AppEnvironmentManager } from './environment';
+import { AppConfigurationManager } from './configuration';
 
 /** @internal */
 export const appInitialization =

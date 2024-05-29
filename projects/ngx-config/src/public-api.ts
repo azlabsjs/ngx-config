@@ -10,15 +10,11 @@ export {
   JSON_CONFIG_URL,
   JSON_CONFIG_LOADER,
   AppConfigurationManager,
-} from './lib/services';
-
-/** Exported pipes */
-export { NgxConfigPipe } from './lib/pipes';
-
-/** Exported providers */
-export {
   provideAppInitializers,
   provideConfigurationManager,
   provideJsonConfigLoader,
   provideNgEnvironment,
-} from './lib/providers';
+} from './lib/services';
+
+/** Exported pipes */
+export { NgxConfigPipe } from './lib/pipes';

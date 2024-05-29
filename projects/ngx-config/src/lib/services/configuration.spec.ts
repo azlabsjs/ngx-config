@@ -4,7 +4,7 @@ import { APP_CONFIG_MANAGER } from './tokens';
 import {
   provideConfigurationManager,
   provideNgEnvironment,
-} from '../providers';
+} from './providers';
 
 describe('App configuration manager Tests', () => {
   let service: ConfigurationManager;

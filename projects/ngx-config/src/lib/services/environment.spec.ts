@@ -1,7 +1,7 @@
 import { TestBed } from '@angular/core/testing';
 import { ConfigurationManager } from '../contracts';
 import { ANGULAR_ENVIRONMENT_MANAGER } from './tokens';
-import { provideNgEnvironment } from '../providers';
+import { provideNgEnvironment } from './providers';
 
 describe('App configuration manager Tests', () => {
   let service: ConfigurationManager;
