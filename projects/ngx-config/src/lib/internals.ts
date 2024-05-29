@@ -1,7 +1,7 @@
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
-export const isPureFunction = (value: any) => {
+export function isPureFunction(value: any): value is (...args: any) => any {
   return !!(value.constructor && value.call && value.apply);
-};
+}
 
 export const isInstance = <T>(value: T) => {
   return !isPureFunction(value);
@@ -22,7 +22,7 @@ export function deepMerge<T extends { [key: string]: unknown }>(
   }
 
   // Initialiaze output object
-  const output: Record<string, unknown> = {...target} as T;
+  const output: Record<string, unknown> = { ...target } as T;
 
   for (const key in source) {
     const tValue = target[key];

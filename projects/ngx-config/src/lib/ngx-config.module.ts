@@ -29,20 +29,13 @@ interface ModuleConfig {
 }
 
 @NgModule({
-  declarations: [NgxConfigPipe],
+  imports: [NgxConfigPipe],
   exports: [NgxConfigPipe],
 })
 export class NgxConfigModule {
+  /** @deprecated Use exposed providers instead */
   static forRoot(config: ModuleConfig): ModuleWithProviders<NgxConfigModule> {
     const providers: Provider[] = [
-      {
-        provide: ANGULAR_ENVIRONMENT_MANAGER,
-        useClass: AppEnvironmentManager,
-      },
-      {
-        provide: APP_CONFIG_MANAGER,
-        useClass: AppConfigurationManager,
-      },
       {
         provide: ENVIRONMENT,
         useValue: config.environment,
@@ -50,6 +43,16 @@ export class NgxConfigModule {
       {
         provide: JSON_CONFIG_URL,
         useValue: config.jsonConfigURL ?? '/assets/resources/config.json',
+      },
+      AppEnvironmentManager,
+      AppConfigurationManager,
+      {
+        provide: ANGULAR_ENVIRONMENT_MANAGER,
+        useClass: AppEnvironmentManager,
+      },
+      {
+        provide: APP_CONFIG_MANAGER,
+        useClass: AppConfigurationManager,
       },
       {
         provide: APP_INITIALIZER,

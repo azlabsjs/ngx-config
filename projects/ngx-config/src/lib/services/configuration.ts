@@ -4,7 +4,6 @@ import {
   ConfigMap,
   ConfigurationManager,
   JSONConfigLoader,
-  CallableConfigLoader,
   ConfigLoader,
 } from '../contracts';
 import { deepMerge, isPureFunction } from '../internals';
@@ -14,15 +13,13 @@ import {
   JSON_CONFIG_URL,
 } from './tokens';
 
-@Injectable({
-  providedIn: 'root',
-})
+@Injectable()
 export class AppConfigurationManager implements ConfigurationManager {
   private environment: ConfigMap = {};
   private configurations: ConfigMap = {};
 
   constructor(
-    @Inject(JSON_CONFIG_URL) @Optional() private url: string,
+    @Inject(JSON_CONFIG_URL) @Optional() private url?: string,
     @Inject(ANGULAR_ENVIRONMENT_MANAGER)
     @Optional()
     ngEnviroment?: ConfigurationManager,
@@ -34,34 +31,27 @@ export class AppConfigurationManager implements ConfigurationManager {
   }
 
   async load(url?: string) {
-    if (
-      typeof this.configLoader === 'undefined' ||
-      this.configLoader === null
-    ) {
-      this.configurations = this.environment ?? {};
+    const { environment, configLoader, url: _url } = this;
+    if (!configLoader) {
+      this.configurations = environment;
       return;
     }
     try {
-      const configurations = await (isPureFunction(this.configLoader)
-        ? (this.configLoader as CallableConfigLoader)(url ?? this.url)
-        : (this.configLoader as ConfigLoader).get(url ?? this.url));
-
-      // Deep merge environment and loaded configuration
-      this.configurations = deepMerge(
-        this.environment ?? {},
-        configurations ?? {}
-      );
+      const _loader = isPureFunction(configLoader)
+        ? configLoader
+        : (p?: string) => {
+            return (configLoader as ConfigLoader).get(p);
+          };
+      this.configurations = deepMerge(environment, await _loader(url ?? _url));
     } catch (error) {
-      this.configurations = this.environment ?? {};
+      this.configurations = environment;
     }
   }
 
   get(key: string | undefined = undefined, default_: unknown = undefined) {
     if (key) {
       return (
-        getObjectProperty(this.configurations ?? {}, key) ??
-        default_ ??
-        undefined
+        getObjectProperty(this.configurations, key) ?? default_ ?? undefined
       );
     }
     return this.configurations ?? {};

@@ -3,7 +3,9 @@ import { ConfigurationManager } from '../contracts';
 import { APP_CONFIG_MANAGER } from '../services';
 
 @Pipe({
+  standalone: true,
   name: 'ngxConfig',
+  pure: true,
 })
 export class NgxConfigPipe implements PipeTransform {
   /**

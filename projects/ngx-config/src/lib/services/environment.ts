@@ -4,9 +4,7 @@ import { ConfigMap, ConfigurationManager } from '../contracts';
 import { ENVIRONMENT } from './tokens';
 import { deepMerge } from '../internals';
 
-@Injectable({
-  providedIn: 'root',
-})
+@Injectable()
 export class AppEnvironmentManager implements ConfigurationManager {
   constructor(
     @Inject(ENVIRONMENT) @Optional() private configuration: ConfigMap = {}
