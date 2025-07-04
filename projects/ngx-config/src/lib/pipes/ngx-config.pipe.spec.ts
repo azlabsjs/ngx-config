@@ -17,8 +17,8 @@ function configurationManager() {
     },
 
     // Cette method récupère une valeur correspodante à la clé fourni
-    get<T = unknown>(key?: string, default_?: unknown): T {
-      return JSObject.getProperty(environment, key ?? '') ?? default_;
+    get<T = unknown>(key?: string, d?: T | unknown) {
+      return JSObject.getProperty(environment, key ?? '') ?? (d as T);
     },
   } as ConfigurationManager;
 }
