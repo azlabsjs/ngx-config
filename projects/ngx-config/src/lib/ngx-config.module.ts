@@ -1,4 +1,10 @@
-import { NgModule, ModuleWithProviders, Provider, inject, provideAppInitializer } from '@angular/core';
+import {
+  NgModule,
+  ModuleWithProviders,
+  Provider,
+  inject,
+  APP_INITIALIZER,
+} from '@angular/core';
 import {
   ANGULAR_ENVIRONMENT_MANAGER,
   APP_CONFIG_MANAGER,
@@ -49,11 +55,12 @@ export class NgxConfigModule {
         provide: APP_CONFIG_MANAGER,
         useClass: AppConfigurationManager,
       },
-      provideAppInitializer(() => {
-        const initializerFn = ((manager: ConfigurationManager) =>
-          appInitialization(manager))(inject(APP_CONFIG_MANAGER));
-        return initializerFn();
-      }),
+      {
+        provide: APP_INITIALIZER,
+        useFactory: () => appInitialization(inject(APP_CONFIG_MANAGER)),
+        multi: true,
+        deps: [],
+      },
     ];
 
     if (config.jsonLoader) {
