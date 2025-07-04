@@ -4,12 +4,13 @@ NgxConfig provides a useful abstraction arround angular environment management b
 
 ## Dependencies
 
-| @azlabsjs/ngx-storage | Angular |
-| --------------------- | ------- |
-| ^0.13.x               | ^13.x   |
-| ^0.14.x               | ^14.x   |
-| ^0.15.x               | ^15.x   |
-| ^0.17.x               | ^17.x   |
+| @azlabsjs/ngx-storage   | Angular              |
+| ----------------------- | -------------------- |
+| ^0.13.x                 | ^13.x                |
+| ^0.14.x                 | ^14.x                |
+| ^0.15.x                 | ^15.x                |
+| ^0.17.x                 | ^17.x                |
+| >=0.17.2x               | >=17.x || < 20.0.0   |
 
 ## Usage
 
