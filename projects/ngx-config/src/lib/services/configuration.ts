@@ -5,6 +5,7 @@ import {
   ConfigurationManager,
   JSONConfigLoader,
   ConfigLoader,
+  UnknownType,
 } from '../contracts';
 import { deepMerge, isPureFunction } from '../internals';
 import {
@@ -48,12 +49,12 @@ export class AppConfigurationManager implements ConfigurationManager {
     }
   }
 
-  get(key: string | undefined = undefined, default_: unknown = undefined) {
+  get<T = UnknownType>(key?: string, d?: T | unknown) {
     if (key) {
-      return (
-        getObjectProperty(this.configurations, key) ?? default_ ?? undefined
-      );
+      return (getObjectProperty(this.configurations, key) ??
+        d ??
+        undefined) as T;
     }
-    return this.configurations ?? {};
+    return (this.configurations ?? {}) as T;
   }
 }

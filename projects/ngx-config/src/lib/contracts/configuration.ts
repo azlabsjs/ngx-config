@@ -6,9 +6,12 @@ export type ConfigMap = { [index: string]: unknown };
 // @internal
 export type CallableConfigLoader = (path?: string) => Promise<ConfigMap>;
 
+/** @internal */
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+export type UnknownType = any;
+
 // @internal
 export interface ConfigLoader {
-
   /**
    * Returns a JSON decoded configuration object
    *
@@ -32,15 +35,14 @@ export interface ConfigLoader {
   get(path?: string): Promise<ConfigMap>;
 }
 
-
 export interface ConfigurationManager {
-  // Cette method charge en mémoire les configurations de l'application
+  // cette method charge en mémoire les configurations de l'application
   load(
     configuration?: { [index: string]: unknown } | string
   ): void | Observable<void> | Promise<void>;
 
-  // Cette method récupère une valeur correspodante à la clé fourni
-  get<T = unknown>(key?: string, default_?: T|unknown): T;
+  // cette method récupère une valeur correspodante à la clé fourni
+  get<T = UnknownType>(key?: string, d?: T | unknown): T | undefined | null;
 }
 
 export type JSONConfigLoader = CallableConfigLoader | ConfigLoader;

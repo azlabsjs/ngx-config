@@ -17,7 +17,7 @@ export class NgxConfigPipe implements PipeTransform {
     @Inject(APP_CONFIG_MANAGER) private configManager: ConfigurationManager
   ) {}
 
-  transform<T>(value: string, default_?: unknown): T {
-    return this.configManager.get<T>(value, default_);
+  transform<T>(value: string, d?: unknown) {
+    return this.configManager.get<T>(value, d as T);
   }
 }

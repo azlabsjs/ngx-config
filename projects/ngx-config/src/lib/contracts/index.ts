@@ -4,4 +4,5 @@ export {
   JSONConfigLoader,
   CallableConfigLoader,
   ConfigLoader,
+  UnknownType
 } from './configuration';

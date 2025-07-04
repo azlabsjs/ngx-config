@@ -1,6 +1,6 @@
 export { AppConfigurationManager } from './configuration';
 
-/** Exported angular tokens */
+/** exported angular tokens */
 export {
   ANGULAR_ENVIRONMENT_MANAGER,
   APP_CONFIG_MANAGER,
@@ -9,10 +9,10 @@ export {
   JSON_CONFIG_LOADER,
 } from './tokens';
 
-/** Exported angular environment manager */
+/** exported angular environment manager */
 export { AppEnvironmentManager } from './environment';
 
-/** Exported providers */
+/** exported providers */
 export {
   provideAppInitializers,
   provideConfigurationManager,

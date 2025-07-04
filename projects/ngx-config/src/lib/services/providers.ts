@@ -14,9 +14,9 @@ import { AppEnvironmentManager } from './environment';
 import { AppConfigurationManager } from './configuration';
 
 /** @internal */
-export const appInitialization =
-  (manager: ConfigurationManager | null) => async () =>
-    await manager?.load();
+export function appInitialization(manager: ConfigurationManager | null) {
+  return async () => await manager?.load();
+}
 
 /** @description Provides a configuration manager instance angular environment object */
 export function provideNgEnvironment(e: ConfigMap) {
@@ -62,7 +62,7 @@ export function provideJsonConfigLoader(config: {
   } as Provider;
 }
 
-/** @decription Provides a factory function that executes when angular application runs initialization functions */
+/** @decription provides a factory function that executes when angular application runs initialization functions */
 export function provideAppInitializers() {
   return {
     provide: APP_INITIALIZER,
